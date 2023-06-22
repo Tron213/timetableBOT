@@ -1,24 +1,31 @@
 import sqlite3
-
-database=sqlite3.connect('students.sqlite')
-cursor=database.cursor()
+from sqlite3 import Error
 
 
 
-def add_user(message):
-    cursor.execute("""SELECT id FROM users WHERE id=?""",(message.chat.id,))
-    user=cursor.fetchone
-    if not user:
-        cursor.execute("INSERT INTO users VALUES(?,?,?)",(message.chat.id,"name","namb",))
-        database.commit
-    else:
-        pass
 
-def add_user_name(message):
-    cursor.execute("UPDATE users SET name=? WHERE id=?",(message.text,message.chat.id,))
-    database.commit()
+def IDTELE(IDTG,IDG):
+    connection=sqlite3.connect('students.db')
+    cursor=connection.cursor()
+    teleID=(IDTG)
+    teleID=str(teleID)
+    groupID=(IDG)
+    groupID=str(groupID)
+    ADDTELE="INSERT INTO USERS(tgid,numgrp) VALUES(?,?)"
+    cursor.execute(ADDTELE,(teleID,groupID))
+    connection.commit()
+    cursor.close()
+    connection.close()
 
-def add_user_namb(message):
-    cursor.execute("UPDATE users SET namb=? WHERE id=?",(message.text,message.chat.id,))
-    database.commit()
+
+
+def ChangeGrp(IDTG):
+    connection=sqlite3.connect('students.db')
+    cursor=connection.cursor()
+    teleID=(IDTG)
+    teleID=str(teleID)
+    cursor.execute("DELETE FROM users WHERE tgid = ?", (teleID,))
     
+    connection.commit()
+    cursor.close()
+    connection.close()
