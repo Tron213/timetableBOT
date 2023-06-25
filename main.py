@@ -5,12 +5,15 @@ from aiogram.types import ReplyKeyboardMarkup,  KeyboardButton, ReplyKeyboardRem
 from aiogram.dispatcher.filters.state import State,StatesGroup
 from aiogram.dispatcher.storage import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from databaza import IDTELE, ChangeGrp
+from databaza import IDTELE, ChangeGrp, delete_files_in_folder
 import btns as nav
 import os
+from PDFSCREEN import take_screenshot_today, take_screenshot_next
+from takepdf import DOWNnextday, DOWNtoday  
+import schedule
+import time
 
 from datetime import datetime, timedelta
-
 
 def todayday():
     current_date = datetime.now()
@@ -52,6 +55,18 @@ async def grupSS(message:types.Message, state:FSMContext):
 @dp.message_handler()
 async def navmenu(message: types.message):
     if message.text == "Сегодня⏰":
+        try:
+            delete_files_in_folder(pics_folder)
+        except:
+            pass
+        try:
+            DOWNtoday()
+        except Exception:
+            pass
+        try:
+            take_screenshot_today()
+        except Exception:
+            pass
         chat_id = message.chat.id
         pics_path = os.path.join(os.getcwd(), pics_folder)
         image_files = [f for f in os.listdir(pics_path) if os.path.isfile(os.path.join(pics_path, f))]
@@ -67,6 +82,18 @@ async def navmenu(message: types.message):
     
     
     elif message.text == "Завтра 🗓️":
+        try:
+            delete_files_in_folder(pics_folder2)
+        except:
+            pass
+        try:
+            DOWNnextday()
+        except Exception:
+            pass
+        try:
+            take_screenshot_next()
+        except Exception:
+            pass
         chat_id = message.chat.id
         pics_path = os.path.join(os.getcwd(), pics_folder2)
         image_files = [f for f in os.listdir(pics_path) if os.path.isfile(os.path.join(pics_path, f))]
@@ -85,6 +112,12 @@ async def navmenu(message: types.message):
         await bot.send_message(message.from_user.id,"ваша группа удалена, перезапутсите бота с помощью команда /start")
         IDTG=message.from_user.id
         ChangeGrp(IDTG)
+
+
+
+
+
+
 
 
 if __name__ =="__main__":

@@ -29,3 +29,20 @@ def ChangeGrp(IDTG):
     connection.commit()
     cursor.close()
     connection.close()
+
+
+import os
+
+def delete_files_in_folder(folder_path):
+
+    # Перебираем все файлы в указанной папке
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        # Проверяем, является ли путь файлом
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+    print(f"Все файлы из папки {folder_path} успешно удалены.")
+
+# Пример использования скрипта
+
