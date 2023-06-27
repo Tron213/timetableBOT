@@ -1,6 +1,5 @@
 from aiogram import Bot, Dispatcher,executor,types
 from config import API_TOKEN
-import logging
 from aiogram.types import ReplyKeyboardMarkup,  KeyboardButton, ReplyKeyboardRemove
 from aiogram.dispatcher.filters.state import State,StatesGroup
 from aiogram.dispatcher.storage import FSMContext
@@ -10,8 +9,6 @@ import btns as nav
 import os
 from PDFSCREEN import take_screenshot_today, take_screenshot_next
 from takepdf import DOWNnextday, DOWNtoday  
-import schedule
-import time
 
 from datetime import datetime, timedelta
 
@@ -48,7 +45,7 @@ async def grupSS(message:types.Message, state:FSMContext):
     IDTELE(IDTG,GROUP)
     sticker_id="CAACAgIAAxkBAAEJb85klGMSCbvsLWbqUnAsaZLe470mJQACCQEAAjrRBwABHCExDa0g5YsvBA"
     await message.reply_sticker(sticker=sticker_id)
-    await bot.send_message(message.from_user.id,"Надеюсь всеработает)",reply_markup=nav.MainMenu)
+    await bot.send_message(message.from_user.id,"Удачной учёбы",reply_markup=nav.MainMenu)
     
     await state.finish()
 
@@ -56,15 +53,15 @@ async def grupSS(message:types.Message, state:FSMContext):
 async def navmenu(message: types.message):
     if message.text == "Сегодня⏰":
         try:
-            delete_files_in_folder(pics_folder)
+           await delete_files_in_folder(pics_folder)
         except:
             pass
         try:
-            DOWNtoday()
+           await DOWNtoday()
         except Exception:
             pass
         try:
-            take_screenshot_today()
+           await take_screenshot_today()
         except Exception:
             pass
         chat_id = message.chat.id
@@ -83,15 +80,15 @@ async def navmenu(message: types.message):
     
     elif message.text == "Завтра 🗓️":
         try:
-            delete_files_in_folder(pics_folder2)
+            await delete_files_in_folder(pics_folder2)
         except:
             pass
         try:
-            DOWNnextday()
+           await DOWNnextday()
         except Exception:
             pass
         try:
-            take_screenshot_next()
+           await take_screenshot_next()
         except Exception:
             pass
         chat_id = message.chat.id
