@@ -52,18 +52,33 @@ async def grupSS(message:types.Message, state:FSMContext):
 @dp.message_handler()
 async def navmenu(message: types.message):
     if message.text == "Сегодня⏰":
-        try:
-           await delete_files_in_folder(pics_folder)
-        except:
-            pass
-        try:
-           await DOWNtoday()
-        except Exception:
-            pass
-        try:
-           await take_screenshot_today()
-        except Exception:
-            pass
+        if len(os.listdir(pics_folder)) == 0:
+            try:
+               await DOWNtoday()
+            except Exception:
+                pass
+            try:
+                await take_screenshot_today()
+            except Exception:
+                pass
+        elif os.path.exists(os.path.join(pics_folder, todayday()+"_S.pdf_1.png")):
+    
+             pass
+        else:
+            try:
+                await delete_files_in_folder(pics_folder)
+            except:
+                 pass
+            try:
+                await DOWNtoday()
+            except Exception:
+                pass
+            try:
+                await take_screenshot_today()
+            except Exception:
+                pass
+
+      
         chat_id = message.chat.id
         pics_path = os.path.join(os.getcwd(), pics_folder)
         image_files = [f for f in os.listdir(pics_path) if os.path.isfile(os.path.join(pics_path, f))]
@@ -79,18 +94,31 @@ async def navmenu(message: types.message):
     
     
     elif message.text == "Завтра 🗓️":
-        try:
-            await delete_files_in_folder(pics_folder2)
-        except:
-            pass
-        try:
-           await DOWNnextday()
-        except Exception:
-            pass
-        try:
-           await take_screenshot_next()
-        except Exception:
-            pass
+        if len(os.listdir(pics_folder2)) == 0:
+            try:
+               await DOWNtoday()
+            except Exception:
+                pass
+            try:
+                await take_screenshot_today()
+            except Exception:
+                pass
+        elif os.path.exists(os.path.join(pics_folder2, NextDay()+"_S.pdf_1.png")):
+    
+             pass
+        else:
+            try:
+                await delete_files_in_folder(pics_folder2)
+            except:
+                 pass
+            try:
+                await DOWNtoday()
+            except Exception:
+                pass
+            try:
+                await take_screenshot_today()
+            except Exception:
+                pass
         chat_id = message.chat.id
         pics_path = os.path.join(os.getcwd(), pics_folder2)
         image_files = [f for f in os.listdir(pics_path) if os.path.isfile(os.path.join(pics_path, f))]
